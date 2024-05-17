@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import mongoose, { connect } from "mongoose";
+import cors from 'cors'
 
 import workOutRoutes from "./routes/workoutRoutes.js";
 
@@ -10,6 +11,7 @@ dotenv.config();
 const app = express();
 
 // use of middlewars
+app.use(cors());
 app.use(express.json());
 
 app.use((req, res, next) => {
