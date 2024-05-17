@@ -1,11 +1,28 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import WorkoutForm from "./WorkoutForm";
 
 const Navbar = () => {
   return (
     <div className="container mx-auto">
-      <div className="navbar  bg-white">
+      <div className="navbar  bg-white flex justify-between">
         <Link className="btn btn-ghost text-xl">Workout Dude</Link>
+        <div className="">
+          <button
+            className="btn bg-teal-600 text-white"
+            onClick={() => document.getElementById("my_modal_2").showModal()}
+          >
+            Add New Workout
+          </button>
+          <dialog id="my_modal_2" className="modal h-screen">
+            <div className="modal-box">
+              <WorkoutForm />
+            </div>
+            <form method="dialog" className="modal-backdrop">
+              <button>close</button>
+            </form>
+          </dialog>
+        </div>
       </div>
     </div>
   );
