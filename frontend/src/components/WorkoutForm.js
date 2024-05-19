@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useWorkoutsContext } from "../hooks/UseWorkoutsContext";
 
 const WorkoutForm = () => {
+  const {dispatch}=useWorkoutsContext();
   const [title, setTitle] = useState("");
   const [load, setLoad] = useState("");
   const [reps, setReps] = useState("");
@@ -31,6 +33,7 @@ const WorkoutForm = () => {
       setTitle("");
       setLoad("");
       setReps("");
+      dispatch({type:"CREATE_WORKOUT",payload:json})
     }
 
     navigate('/');
