@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from 'bcrypt'
+import validator from 'validator';
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -20,6 +21,17 @@ userSchema.statics.signup = async function (email, password) {
   if (exist) {
     throw Error("Email already exists.!.");
   }
+  if(!email || !password){
+    throw Error("All fields must be filled...")
+  }
+
+  if(!validator.isEmail(email)){
+    throw Error("Not a valid email.!.")
+  }
+  if(!validator.isStrongPassword(password)){
+    throw Error("Password is not strong enough.!.")
+  }
+
 
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(password, salt);
