@@ -23,6 +23,10 @@ const Navbar = () => {
             </form>
           </dialog>
         </div>
+        <div className=" flex gap-3">
+          <Link to="/login" className="btn btn-neutral bg-teal-600 text-white">Log In</Link>
+          <Link to="/signup" className="btn btn-primary bg-teal-600 text-white">Sign Up</Link>
+        </div>
       </div>
     </div>
   );
