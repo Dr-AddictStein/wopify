@@ -1,12 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import WorkoutForm from "./WorkoutForm";
+import { useLogout } from "../hooks/useLogout";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const Navbar = () => {
+  const { logout } = useLogout();
+  const { user } = useAuthContext();
   return (
     <div className="container mx-auto">
       <div className="navbar  bg-white flex justify-between">
-        <Link className="btn btn-ghost text-xl">Workout Dude</Link>
+        <Link to="/" className="btn btn-ghost text-xl">Workout Dude</Link>
         <div className="">
           <button
             className="btn bg-teal-600 text-white"
@@ -23,10 +27,33 @@ const Navbar = () => {
             </form>
           </dialog>
         </div>
-        <div className=" flex gap-3">
-          <Link to="/login" className="btn btn-neutral bg-teal-600 text-white">Log In</Link>
-          <Link to="/signup" className="btn btn-primary bg-teal-600 text-white">Sign Up</Link>
-        </div>
+        {!user ? (
+          <div className=" flex gap-3">
+            <Link
+              to="/login"
+              className="btn btn-neutral bg-teal-600 text-white"
+            >
+              Log In
+            </Link>
+            <Link
+              to="/signup"
+              className="btn btn-primary bg-teal-600 text-white"
+            >
+              Sign Up
+            </Link>
+          </div>
+        ) : (
+          <div className=" flex gap-3">
+            <button
+              onClick={(e) => {
+                logout();
+              }}
+              className="btn btn-neutral bg-teal-600 text-white"
+            >
+              Log Out
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
+import { useLogin } from '../hooks/useLogin';
 
 
 const Login = () => {
@@ -7,10 +8,12 @@ const Login = () => {
     const [email,setEmail]=useState('');
     const [password,setPasword]=useState('');
 
+    const {login,error}=useLogin();
+
     const handleSubmit=async(e)=>{
         e.preventDefault();
 
-        console.log(email,password);
+        await login(email,password);
     }
 
   return (
@@ -63,6 +66,11 @@ const Login = () => {
           </label>
 
           <button className="btn btn-primary bg-teal-600 text-white text-center w-full">Log In</button>
+          {error && <>
+            <div className="error">
+              {error}
+            </div>
+          </>}
         </form>
       </div>
     </div>
