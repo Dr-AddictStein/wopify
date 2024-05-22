@@ -1,16 +1,22 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useWorkoutsContext } from "../hooks/UseWorkoutsContext";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const WorkoutForm = () => {
-  const {dispatch}=useWorkoutsContext();
+  const { dispatch } = useWorkoutsContext();
   const [title, setTitle] = useState("");
   const [load, setLoad] = useState("");
   const [reps, setReps] = useState("");
-  const navigate=useNavigate();
+  const navigate = useNavigate();
+  const { user } = useAuthContext();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!user) {
+      return;
+    }
 
     const workout = {
       title,
@@ -23,6 +29,7 @@ const WorkoutForm = () => {
       body: JSON.stringify(workout),
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${user.token}`,
       },
     });
     console.log("SDASDASD", workout);
@@ -33,35 +40,54 @@ const WorkoutForm = () => {
       setTitle("");
       setLoad("");
       setReps("");
-      dispatch({type:"CREATE_WORKOUT",payload:json})
+      dispatch({ type: "CREATE_WORKOUT", payload: json });
     }
 
-    navigate('/');
+    navigate("/");
   };
 
   return (
-    <form action="" onSubmit={handleSubmit} className="h-72 flex flex-col justify-between items-center">
+    <form
+      action=""
+      onSubmit={handleSubmit}
+      className="h-72 flex flex-col justify-between items-center"
+    >
       <h3 className="text-center text-xl text-teal-500">Add a new Workout</h3>
 
       <div className="flex justify-center">
-        <input onChange={(e)=>{
+        <input
+          onChange={(e) => {
             setTitle(e.target.value);
-        }} type="text" placeholder="Exercise Title" className="input input-bordered w-full max-w-xs" />
+          }}
+          type="text"
+          placeholder="Exercise Title"
+          className="input input-bordered w-full max-w-xs"
+        />
       </div>
       <div className="flex justify-center">
-        <input onChange={(e)=>{
+        <input
+          onChange={(e) => {
             setLoad(e.target.value);
-        }} type="number" placeholder="Load" className="input input-bordered w-full max-w-xs" />
+          }}
+          type="number"
+          placeholder="Load"
+          className="input input-bordered w-full max-w-xs"
+        />
       </div>
       <div className="flex justify-center">
-        <input onChange={(e)=>{
+        <input
+          onChange={(e) => {
             setReps(e.target.value);
-        }} type="number" placeholder="Reps" className="input input-bordered w-full max-w-xs" />
+          }}
+          type="number"
+          placeholder="Reps"
+          className="input input-bordered w-full max-w-xs"
+        />
       </div>
 
-      
-
-      <button className="mt-2 bg-teal-500 w-1/4 p-1 text-white font-semibold rounded-2xl">Add Workout</button>
+      <button className="mt-2 bg-teal-500 w-1/4 p-1 text-white font-semibold rounded-2xl">
+        Add Workout
+      </button>
     </form>
   );
 };
