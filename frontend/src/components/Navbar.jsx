@@ -44,6 +44,7 @@ const Navbar = () => {
           </div>
         ) : (
           <div className=" flex gap-3">
+            <p>{user.email}</p>
             <button
               onClick={(e) => {
                 logout();
